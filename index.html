@@ -1,0 +1,184 @@
+<html>
+<body>
+
+<script src="audiosynth/audiosynth.js"></script>
+<!--<script srzc="script.js"></script>-->
+
+<h1>Slevc et. al. Simulator
+    <br>
+    PSYCH 445</h1>
+
+<button type="button" onclick="runStates(exp1_state_1)">Experiment 1, Option 1</button>
+<button type="button" onclick="runStates(exp1_state_2)">Experiment 1, Option 2</button>
+<button type="button" onclick="runStates(exp2_state_1)">Experiment 2</button>
+
+
+<div id="word"></div>
+
+<script>
+exp1_state_1 = [['After', ['piano', 'C', 'E', 'G']],
+    ['the', ['piano', 'F', 'A', 'C']],
+    ['trial,', ['piano', 'G', 'B', 'D']],
+    ['the', ['piano', 'C', 'E', 'G']],
+    ['attorney', ['piano', 'D', 'F', 'A']],
+    ['advised', ['piano', 'G', 'B', 'D']],
+    ['the', ['piano', 'C', 'E', 'G']],
+    ['defendant', ['piano', 'E', 'G', 'B']],
+    ['was', ['piano', 'F', 'A', 'C']],
+    ['likely', ['piano', 'C', 'E', 'G']],
+    ['to', ['piano', 'F', 'A', 'C']],
+    ['commit', ['piano', 'D', 'F', 'A']],
+    ['more', ['piano', 'G', 'B', 'D']],
+    ['crimes.', ['piano', 'C', 'E', 'G']],
+    'Did the attorney think the defendant was innocent?']
+
+exp1_state_2 = [['The', ['piano', 'C', 'E', 'G']],
+    ['scientist', ['piano', 'F', 'A', 'C']],
+    ['wearing', ['piano', 'G', 'B', 'D']],
+    ['thick', ['piano', 'C', 'E', 'G']],
+    ['glasses', ['piano', 'D', 'F', 'A']],
+    ['confirmed', ['piano', 'G', 'B', 'D']],
+    ['the', ['piano', 'C', 'E', 'G']],
+    ['hypothesis', ['piano', 'E', 'G', 'B']],
+    ['was', ['piano', 'G', 'F']],
+    ['being', ['piano', 'C', 'E', 'G']],
+    ['studied', ['piano', 'F', 'A', 'C']],
+    ['in', ['piano', 'D', 'F', 'A']],
+    ['his', ['piano', 'G', 'B', 'D']],
+    ['lab.', ['piano', 'C', 'E', 'G']],
+    'Was the scientist studying the hypothesis?']
+
+exp2_state_1 = [['In', ['piano', 'C', 'E', 'G']],
+    ['the', ['piano', 'F', 'A', 'C']],
+    ['winter,', ['piano', 'G', 'B', 'D']],
+    ['the', ['piano', 'C', 'E', 'G']],
+    ['child', ['piano', 'D', 'F', 'A']],
+    ['liked', ['piano', 'G', 'B', 'D']],
+    ['to go', ['piano', 'D', 'F', 'A']],
+    ['outside', ['piano', 'C', 'E', 'G']],
+    ['to', ['piano', 'F', 'A', 'C']],
+    ['make', ['piano', 'G', 'B', 'D']],
+    ['a', ['piano', 'A', 'C', 'E']],
+    ['pizza', ['organ', 'F', 'A', 'C']],
+    ['before', ['piano', 'C', 'E', 'G']],
+    ['the', ['piano', 'F', 'A', 'C']],
+    ['sun', ['piano', 'D', 'F', 'A']],
+    ['went', ['piano', 'G', 'B', 'D']],
+    ['down.', ['piano', 'C', 'E', 'G']],
+    'Did the child like to go outside in the winter?']
+
+function playChord(params) {
+    Synth instanceof AudioSynth;
+    var instr_name = params[0]
+    var instr = Synth.createInstrument(instr_name);
+    for (var i = 1; i < params.length; i++) {
+        if (instr_name === 'organ') {
+            instr.play(params[i], 4, 4)
+        }
+        else {
+            instr.play(params[i], 4, 3);
+        }
+    }
+}
+
+function updateState(word, chord_params, synth) {
+    console.log(word)
+    console.log(chord_params)
+    word_p = document.getElementById("word");
+    word_p.innerHTML = word
+    playChord(chord_params)
+}
+
+function showQuestion(question) {
+    word_p = document.getElementById("word");
+    word_p.innerHTML = question
+}
+
+function runStates(states) {
+    var synth = new AudioSynth;
+    (function myLoop (i) {          
+        setTimeout(function () {
+            if (i < states.length-1) {
+                updateState(states[i][0], states[i][1], synth);
+            }
+            else {
+                showQuestion(states[states.length-1]);
+            }
+            // playChord('C', 'E', 'G', 'F');
+            if (i < states.length) myLoop(i+1);
+        }, 750)
+    })(0);
+
+    // for (let i=0; i<2; i++) {
+    //     setTimeout(function() {
+    //         updateState(exp1_states[i][0], exp1_states[i][1], synth); }
+    //         , 2000);
+    // }
+    
+    // var piano = Synth.createInstrument('piano');
+    // note = 'A';
+    // octave = 2;
+    // duration = 2;
+    // piano.play(note, octave, duration);
+}
+
+</script>
+
+<style>
+#word {
+    font-size: 500%;
+    margin: auto;
+    width: 50%;
+    margin: 50px 0px 50px 0px;
+    padding: 50px 0px 50px 25px;
+    border: 1px solid black;
+}
+
+h1 {
+    font-family: 'Helvetica', 'Arial', sans-serif;
+    font-size: 200%;
+}
+
+button {
+	-moz-box-shadow:inset 0px 1px 0px 0px #54a3f7;
+	-webkit-box-shadow:inset 0px 1px 0px 0px #54a3f7;
+	box-shadow:inset 0px 1px 0px 0px #54a3f7;
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #007dc1), color-stop(1, #0061a7));
+	background:-moz-linear-gradient(top, #007dc1 5%, #0061a7 100%);
+	background:-webkit-linear-gradient(top, #007dc1 5%, #0061a7 100%);
+	background:-o-linear-gradient(top, #007dc1 5%, #0061a7 100%);
+	background:-ms-linear-gradient(top, #007dc1 5%, #0061a7 100%);
+	background:linear-gradient(to bottom, #007dc1 5%, #0061a7 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#007dc1', endColorstr='#0061a7',GradientType=0);
+	background-color:#007dc1;
+	-moz-border-radius:3px;
+	-webkit-border-radius:3px;
+	border-radius:3px;
+	border:1px solid #124d77;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:13px;
+	padding:6px 24px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #154682;
+}
+button:hover {
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #0061a7), color-stop(1, #007dc1));
+	background:-moz-linear-gradient(top, #0061a7 5%, #007dc1 100%);
+	background:-webkit-linear-gradient(top, #0061a7 5%, #007dc1 100%);
+	background:-o-linear-gradient(top, #0061a7 5%, #007dc1 100%);
+	background:-ms-linear-gradient(top, #0061a7 5%, #007dc1 100%);
+	background:linear-gradient(to bottom, #0061a7 5%, #007dc1 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#0061a7', endColorstr='#007dc1',GradientType=0);
+	background-color:#0061a7;
+}
+button:active {
+	position:relative;
+	top:1px;
+}
+</style>
+
+</body>
+</html>
